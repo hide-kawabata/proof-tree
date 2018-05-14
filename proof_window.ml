@@ -304,9 +304,8 @@ object (self)
   (** Reflect changes in the current configuration. *)
   method configuration_updated =
     sequent_window#misc#modify_font !sequent_font_desc;
-    Gdk.GC.set_line_attributes (drawable#gc)
-      ~width:(!current_config.turnstile_line_width)
-      ~style:`SOLID ~cap:`ROUND ~join:`ROUND;
+    drawable#set_line_attributes 
+      ~width:(!current_config.turnstile_line_width) ();
     layer_stack#configuration_updated;
     self#expand_drawing_area;
     ignore(self#position_tree);
@@ -1442,9 +1441,8 @@ let rec make_proof_window name geometry_string =
            ~callback:(proof_window#context_menu_deactivated));
 
   top_window#set_title (name ^ " proof tree");
-  Gdk.GC.set_line_attributes (drawable#gc)
-    ~width:(!current_config.turnstile_line_width)
-    ~style:`SOLID ~cap:`ROUND ~join:`ROUND;
+  drawable#set_line_attributes 
+    ~width:(!current_config.turnstile_line_width) ();
   drawing_area#misc#set_has_tooltip true;
   ignore(drawing_area#misc#connect#query_tooltip
    	   ~callback:proof_window#drawable_tooltip);
